@@ -1,0 +1,144 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+// Stack data structure using linked list
+class Node{
+public:
+    int data; // Data stored in the node
+    Node *next; // Pointer to the next node in the stack
+};
+
+// Stack class
+class Stack{
+public:
+    Node *top; // Pointer to the top of the stack
+
+    // Constructor to initialize the top pointer to null
+    Stack(){
+        top = nullptr;
+    }
+
+    // Function to check if the stack is empty
+    bool is_empty(){
+        return top == nullptr;
+    }
+
+    // Function to check if the stack is full (always false for linked list implementation)
+    bool is_full(){
+        Node *new_node = new Node();
+        if (new_node == nullptr){
+            return true;
+        }
+        else{
+            delete new_node;
+            return false;
+        }
+    }
+
+    // Function to add an element to the top of the stack
+    void push(int value){
+        if (!is_full()){
+            Node *new_node = new Node;
+            new_node->data = value;
+            new_node->next = top;
+            top = new_node;
+        }
+        else{
+            cout << "Stack Overflow! \n";
+        }
+    }
+
+    // Function to remove an element from the top of the stack
+    void pop(){
+        if (!is_empty()){
+            Node *temp = top;
+            top = temp->next;
+            delete temp;
+        }
+    }
+
+    // Function to get the element at a given position in the stack
+    void peek(int position){
+        if (is_empty()){
+            cout << "Stack is empty. \n";
+            return;
+        }
+        int count = 0;
+        Node *curr = top;
+        while (count < position && curr != NULL){
+            count++;
+            curr = curr->next;
+        }
+        if (curr == NULL){
+            cout << "Given position is out of bounds \n";
+            return;
+        }
+        else{
+            cout << "The element at position " << position << " is " << curr->data << endl;
+            return;
+        }
+    }
+
+    // Function to get the element at the top of the stack
+    int stack_top(){
+        if (!is_empty()){
+            return top->data;
+        }
+    }
+
+    // Function to display the stack elements
+    void display(){
+        if (is_empty()){
+            cout << "Stack is empty. \n";
+            return;
+        }
+        Node *curr = top;
+        while (curr != NULL){
+            cout << curr->data << " --> ";
+            curr = curr->next;
+        }
+        cout << "NULL \n";
+    }
+};
+
+// Main function
+int main() {
+    cout << "stack using linked lists \n";
+    clock_t start, end;
+    start = clock();
+    // Creating an object of the Stack class
+    Stack my_stack;
+    my_stack.push(8);
+    my_stack.push(10);
+    my_stack.push(5);
+    my_stack.push(11);
+    my_stack.push(15);
+    my_stack.push(23);
+    my_stack.push(6);
+    my_stack.push(18);
+    my_stack.push(20);
+    my_stack.push(17);
+    my_stack.display();
+    my_stack.pop();
+    my_stack.pop();
+    my_stack.pop();
+    my_stack.pop();
+    my_stack.pop();
+    my_stack.display();
+    my_stack.push(4);
+    my_stack.push(30);
+    my_stack.push(3);
+    my_stack.push(1);
+
+    my_stack.display();
+
+
+
+    end = clock();
+    double elapsed = double(end - start) / double(CLOCKS_PER_SEC);
+
+    cout << "Time taken by program is : " << elapsed * 1000 << "milisecs \n";
+
+
+    return 0;}
